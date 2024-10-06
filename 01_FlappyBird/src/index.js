@@ -26,10 +26,16 @@ const config = {
 new Phaser.Game(config);
 
 function preload () {
-  // this.load.image('sky', 'assets/sky.png');
-  debugger
+  // this context -> Scene
+
+  // load image, specify asset
+  // (resourceFutureId, path)
+  this.load.image('sky', 'assets/sky.png');
 }
 
 function create () {
-  // this.add.image(400, 300, 'sky');
+
+  // addd image to the scene, specify resource
+  //(x,y, key)
+  this.add.image(config.width/2, config.height/2, 'sky');
 }
