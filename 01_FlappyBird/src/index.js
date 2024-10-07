@@ -5,7 +5,7 @@ const config = {
   type: Phaser.AUTO, //render tyoe (WebGL)
   width: 800,
   height: 600,
-  _physics: {
+  physics: {
     default: 'arcade',
     // arcade: {
     //   gravity: { y: 200 }
@@ -19,7 +19,8 @@ const config = {
   // },
   scene: {
     preload: preload,
-    create: create
+    create: create,
+    update: update
   }
 };
 
@@ -43,8 +44,25 @@ function create () {
   this.add.image(0,0, 'sky').setOrigin(0,0);
 
 
-  //iknicializar Sprite (pongo en mitad del screen, y su posicion que sea la mitad de la img)
-  bird = this.add.sprite(config.width * 0.1, config.height/2, 'birdSquare').setOrigin(0.5,0.5)
-  debugger
+  //iknicializar Sprite (pongo en el screen (y=50%, x=00%), y su posicion que sea la mitad de la img)
+  bird = this.physics.add.sprite(0, config.height/2, 'birdSquare').setOrigin(0,0.5)
+  bird.body.velocity.x = config.width;
+
+  // bird.body.gravity.y = 200;
+  console.log(bird.body.x);
+  
+}
+
+// 60 fps app exec time
+// 60 times per second
+// 60 ejecuciones * 16ms (duracion de frame) = 1000 ms (para ejhecutar los 50 freames)
+let frameCounter = 0
+function update(time, delta) {
+  frameCounter++
+  if (frameCounter > 60) {
+    // detengo el bird al segundo
+    bird.body.velocity.x = 0;
+    console.log(bird.body.x);
+  }
 }
 
