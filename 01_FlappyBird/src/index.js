@@ -7,9 +7,9 @@ const config = {
   height: 600,
   physics: {
     default: 'arcade',
-    // arcade: {
-    //   gravity: { y: 200 }
-    // }
+    arcade: {
+      gravity: { y: 50 }
+    }
   },
   // get physics() {
   //   return this._physics;
@@ -45,11 +45,18 @@ function create () {
 
 
   //iknicializar Sprite (pongo en el screen (y=50%, x=00%), y su posicion que sea la mitad de la img)
-  bird = this.physics.add.sprite(0, config.height/2, 'birdSquare').setOrigin(0,0.5)
-  bird.body.velocity.x = config.width;
+  bird = this.physics.add.sprite(15, config.height/2, 'birdSquare').setOrigin(0,0.5)
 
-  // bird.body.gravity.y = 200;
   console.log(bird.body.x);
+
+  //adding physics
+  // bird.body.velocity.x = config.width;
+
+  // t0 = 0px/s
+  // t1 = 200px/s
+  // t3 = 200px/s
+  // bird.body.gravity.y = 50;
+  
   
 }
 
@@ -57,12 +64,33 @@ function create () {
 // 60 times per second
 // 60 ejecuciones * 16ms (duracion de frame) = 1000 ms (para ejhecutar los 50 freames)
 let frameCounter = 0
+let totalDelta = null
 function update(time, delta) {
-  frameCounter++
-  if (frameCounter > 60) {
-    // detengo el bird al segundo
-    bird.body.velocity.x = 0;
-    console.log(bird.body.x);
-  }
+
+  // Test ---> speed for 1sec (60 frames)
+  // frameCounter++
+  // if (frameCounter > 60) {
+  //   // detengo el bird al segundo
+  //   bird.body.velocity.x = 0;
+  //   console.log(bird.body.x);
+  // }
+
+
+
+  // tst ----> Acceleration ( every secondd print)
+  totalDelta += delta;
+
+  // if (totalDelta >= 1000) {
+  //   console.log(bird.body.velocity.y)
+  //   totalDelta =0;
+  // };
+
+  //con condicional pa que salga si va a menos de 1000
+  if (totalDelta < 1000) return;
+
+  console.log(bird.body.velocity.y)
+  totalDelta =0;
+  
+  
 }
 
