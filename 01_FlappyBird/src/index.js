@@ -8,7 +8,7 @@ const config = {
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 400 },
+      // gravity: { y: 400 },
       debug:true,
     }
   },
@@ -31,12 +31,17 @@ function preload () {
   // .load.resource(resourceFutureId, path)
   this.load.image('sky', 'assets/sky.png');
   this.load.image('birdSquare', 'assets/bird.png');
+
+  this.load.image('pipe', 'assets/pipe.png');
 }
 
 let bird = null;
+let upperPipe = null
+let lowerPipe = null
 const VELOCITY = 200;
 let flapVelocity = 150;
 const initialBirdPosition =  {x:15, y:config.height/2}
+
 
 function create () {
   
@@ -45,11 +50,10 @@ function create () {
 
   bird = this.physics.add.sprite(initialBirdPosition.x, initialBirdPosition.y, 'birdSquare').setOrigin(0.5,0.5) // initializing object with physics
   bird.body.velocity.x = 100
+  bird.body.gravity.y = 400
 
-  // events
-  this.input.on('pointerdown', function() {
-    console.log('mouse pointer pressed');
-  });
+  upperPipe = this.physics.add.sprite(300, 100, 'pipe').setOrigin(0,1)
+  lowerPipe = this.physics.add.sprite(300, upperPipe.y+100, 'pipe').setOrigin(0,0) //top el del de arriba, pero con un espaci de 100
 
   // keyboard events
   this.input.keyboard.on('keydown-SPACE', flap);
@@ -67,7 +71,7 @@ function update(time, delta) {
   // bounce feature (move back and forth) -> bounce in the walls
   if (bird.body.x >= config.width-bird.width) bird.body.velocity.x = -VELOCITY
   if (bird.body.x < 0) bird.body.velocity.x = VELOCITY
-
+  
   // reduce aceleration 
   if (bird.body.velocity.y > 400) bird.body.velocity.y = 0
 }
