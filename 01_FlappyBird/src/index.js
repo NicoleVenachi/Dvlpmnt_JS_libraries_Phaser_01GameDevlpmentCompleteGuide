@@ -33,7 +33,9 @@ let flapVelocity = 150;
 const initialBirdPosition =  {x:15, y:config.height/2}
 
 let pipeVerticalgDistanceRange = [100, 250];
-let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalgDistanceRange); //destryctyrubg vector values
+let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalgDistanceRange); //destructuring vector values
+
+let pipeVerticalPosition = Phaser.Math.Between(0 + 30,config.height - 30 - pipeVerticalDistance); //lo pone entre un poquito despues de 0, y un poquito antes del final (asegurando que haya al menos un vertical distance suficiente; Y ASEGURANDO que el otro pipe tambien se muestre almenos en 30 px, eso lo hace el primer 30 de la resta)
 
 //  ----------------------- Phaser methods --------------------
 function preload () {
@@ -53,7 +55,7 @@ function create () {
   bird.body.velocity.x = 100
   bird.body.gravity.y = 400
 
-  upperPipe = this.physics.add.sprite(300, 100, 'pipe').setOrigin(0,1)
+  upperPipe = this.physics.add.sprite(300, pipeVerticalPosition, 'pipe').setOrigin(0,1)
   lowerPipe = this.physics.add.sprite(300, upperPipe.y+pipeVerticalDistance, 'pipe').setOrigin(0,0) //top el del de arriba, pero con un espaci de acuierdop al range del otro 
 
   // keyboard events
