@@ -25,16 +25,6 @@ const config = {
   }
 };
 
-new Phaser.Game(config);
-
-function preload () {
-  // .load.resource(resourceFutureId, path)
-  this.load.image('sky', 'assets/sky.png');
-  this.load.image('birdSquare', 'assets/bird.png');
-
-  this.load.image('pipe', 'assets/pipe.png');
-}
-
 let bird = null;
 let upperPipe = null
 let lowerPipe = null
@@ -42,6 +32,17 @@ const VELOCITY = 200;
 let flapVelocity = 150;
 const initialBirdPosition =  {x:15, y:config.height/2}
 
+let pipeVerticalgDistanceRange = [100, 250];
+let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalgDistanceRange); //destryctyrubg vector values
+
+//  ----------------------- Phaser methods --------------------
+function preload () {
+  // .load.resource(resourceFutureId, path)
+  this.load.image('sky', 'assets/sky.png');
+  this.load.image('birdSquare', 'assets/bird.png');
+
+  this.load.image('pipe', 'assets/pipe.png');
+}
 
 function create () {
   
@@ -53,7 +54,7 @@ function create () {
   bird.body.gravity.y = 400
 
   upperPipe = this.physics.add.sprite(300, 100, 'pipe').setOrigin(0,1)
-  lowerPipe = this.physics.add.sprite(300, upperPipe.y+100, 'pipe').setOrigin(0,0) //top el del de arriba, pero con un espaci de 100
+  lowerPipe = this.physics.add.sprite(300, upperPipe.y+pipeVerticalDistance, 'pipe').setOrigin(0,0) //top el del de arriba, pero con un espaci de acuierdop al range del otro 
 
   // keyboard events
   this.input.keyboard.on('keydown-SPACE', flap);
@@ -76,6 +77,8 @@ function update(time, delta) {
   if (bird.body.velocity.y > 400) bird.body.velocity.y = 0
 }
 
+//  ----------------------- --------------------
+
 function flap() {
   bird.body.velocity.y = -flapVelocity
 }
@@ -86,3 +89,5 @@ function restartPlayerPosition(params) {
   bird.body.velocity.y = 0
 }
 
+
+new Phaser.Game(config);
