@@ -26,6 +26,7 @@ const config = {
 };
 
 let bird = null;
+let pipes = null;
 
 const VELOCITY = 200;
 let flapVelocity = 150;
@@ -54,15 +55,16 @@ function create () {
   bird.body.velocity.x = 100
   bird.body.gravity.y = 400
 
+  pipes = this.physics.add.group();
+
   for (let index = 0; index < PIPES_TO_RENDER; index++) {
-    const upperPipe = this.physics.add.sprite(0, 0, 'pipe').setOrigin(0,1)
-    const lowerPipe = this.physics.add.sprite(0, 0, 'pipe').setOrigin(0,0)
+    const upperPipe = pipes.create(0, 0, 'pipe').setOrigin(0,1)
+    const lowerPipe = pipes.create(0, 0, 'pipe').setOrigin(0,0)
 
     placePipe(upperPipe, lowerPipe);
   }
 
-
-
+  pipes.setVelocityX(-200);
 
   // keyboard events
   this.input.keyboard.on('keydown-SPACE', flap);
@@ -93,6 +95,7 @@ function flap() {
 
 function placePipe(uPipe, lPipe) {
   pipeHorizontalDistance += 400;
+  // pipeHorizontalDistance = getRightMostPipe(); // obetner la positiocion mas a la izquierda del grupo
 
   let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalgDistanceRange); //destructuring vector values
   let pipeVerticalPosition = Phaser.Math.Between(0 + 30,config.height - 30 - pipeVerticalDistance); //lo pone entre un poquito despues de 0, y un poquito antes del final (asegurando que haya al menos un vertical distance suficiente; Y ASEGURANDO que el otro pipe tambien se muestre almenos en 30 px, eso lo hace el primer 30 de la resta)
@@ -102,9 +105,6 @@ function placePipe(uPipe, lPipe) {
 
   lPipe.x = uPipe.x
   lPipe.y = uPipe.y+pipeVerticalDistance //top el del de arriba, pero con un espacio vertical
-
-  uPipe.body.velocity.x = -200;
-  lPipe.body.velocity.x = -200;
 }
 
 function restartPlayerPosition(params) {
@@ -113,6 +113,9 @@ function restartPlayerPosition(params) {
   bird.body.velocity.y = 0
 }
 
+function  getRightMostPipe() {
+  
+}
 
 
 
