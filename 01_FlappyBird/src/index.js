@@ -33,6 +33,7 @@ let flapVelocity = 150;
 const initialBirdPosition =  {x:15, y:config.height/2}
 
 let pipeVerticalgDistanceRange = [100, 250];
+const pipeHorizontalDistanceRange = [400,500]; //distance beteen pipes
 let pipeHorizontalDistance = 0;
 
 const PIPES_TO_RENDER = 4;
@@ -93,15 +94,18 @@ function flap() {
   bird.body.velocity.y = -flapVelocity
 }
 
+// let rightMostX =0 
 function placePipe(uPipe, lPipe) {
-  pipeHorizontalDistance += 400;
+  let rightMostX = getRightMostPipe();
   // pipeHorizontalDistance = getRightMostPipe(); // obetner la positiocion mas a la izquierda del grupo
 
   let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalgDistanceRange); //destructuring vector values
   let pipeVerticalPosition = Phaser.Math.Between(0 + 30,config.height - 30 - pipeVerticalDistance); //lo pone entre un poquito despues de 0, y un poquito antes del final (asegurando que haya al menos un vertical distance suficiente; Y ASEGURANDO que el otro pipe tambien se muestre almenos en 30 px, eso lo hace el primer 30 de la resta)
 
-  uPipe.x = pipeHorizontalDistance
-  uPipe.y = pipeVerticalPosition
+  let pipeHorizontalDistance = Phaser.Math.Between(...pipeHorizontalDistanceRange)
+
+  uPipe.x = rightMostX +  pipeHorizontalDistance; // al del antggerior pipe le sumo el valor del rango 
+  uPipe.y = pipeVerticalPosition;
 
   lPipe.x = uPipe.x
   lPipe.y = uPipe.y+pipeVerticalDistance //top el del de arriba, pero con un espacio vertical
@@ -113,8 +117,17 @@ function restartPlayerPosition(params) {
   bird.body.velocity.y = 0
 }
 
-function  getRightMostPipe() {
+function getRightMostPipe() {
+  let rightMostX = 0; //default value
   
+  pipes.getChildren().forEach(pipe => {
+    rightMostX = Math.max(pipe.x, rightMostX); // da el mayor de ellos
+
+    debugger;
+  });
+
+  
+  return rightMostX;
 }
 
 
