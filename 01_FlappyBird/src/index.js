@@ -1,5 +1,6 @@
 
 import Phaser from "phaser";
+import PlayScene from "./scenes/PlayScene";
 
 const config = {
   type: Phaser.AUTO, //render tyoe (WebGL)
@@ -8,21 +9,10 @@ const config = {
   physics: {
     default: 'arcade',
     arcade: {
-      // gravity: { y: 400 },
       debug:true,
     }
   },
-  // get physics() {
-  //   return this._physics;
-  // },
-  // set physics(value) {
-  //   this._physics = value;
-  // },
-  scene: {
-    preload: preload,
-    create: create,
-    update: update
-  }
+  scene: [PlayScene]
 };
 
 let bird = null;
