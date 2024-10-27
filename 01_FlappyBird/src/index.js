@@ -86,6 +86,8 @@ function update(time, delta) {
   
   // reduce aceleration 
   if (bird.body.velocity.y > 400) bird.body.velocity.y = 0
+
+  recyclePipes(); 
 }
 
 //  ----------------------- --------------------
@@ -97,7 +99,6 @@ function flap() {
 // let rightMostX =0 
 function placePipe(uPipe, lPipe) {
   let rightMostX = getRightMostPipe();
-  // pipeHorizontalDistance = getRightMostPipe(); // obetner la positiocion mas a la izquierda del grupo
 
   let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalgDistanceRange); //destructuring vector values
   let pipeVerticalPosition = Phaser.Math.Between(0 + 30,config.height - 30 - pipeVerticalDistance); //lo pone entre un poquito despues de 0, y un poquito antes del final (asegurando que haya al menos un vertical distance suficiente; Y ASEGURANDO que el otro pipe tambien se muestre almenos en 30 px, eso lo hace el primer 30 de la resta)
@@ -122,14 +123,20 @@ function getRightMostPipe() {
   
   pipes.getChildren().forEach(pipe => {
     rightMostX = Math.max(pipe.x, rightMostX); // da el mayor de ellos
-
-    debugger;
   });
 
-  
   return rightMostX;
 }
 
-
+function recyclePipes() {
+  // since it need tocheck in every render, will be called in every update
+  const tempPipes = [];
+  pipes.getChildren().forEach((pipe) => {
+    if (pipe.getBounds().right <= 0) {
+      tempPipes.push(pipe);
+      if (tempPipes.length === 2) placePipe(...tempPipes); 
+    }
+  })
+}
 
 new Phaser.Game(config);
