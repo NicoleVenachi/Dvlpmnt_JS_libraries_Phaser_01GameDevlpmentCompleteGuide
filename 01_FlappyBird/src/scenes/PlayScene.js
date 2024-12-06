@@ -28,6 +28,7 @@ class PlayScene extends Phaser.Scene {
     this.createBG();
     this.createBird();
     this.createPipes();
+    this.createColliders();
     this.handleInputs();
   }
 
@@ -66,6 +67,10 @@ class PlayScene extends Phaser.Scene {
     this.pipes.setVelocityX(-200);
   }
 
+  createColliders() {
+    this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
+  }
+
   handleInputs() {
     this.input.on("pointerdown", this.flap, this);
     this.input.keyboard.on("keydown-SPACE", this.flap, this);
@@ -74,7 +79,7 @@ class PlayScene extends Phaser.Scene {
   checkGameStatus() {
     // repeat feature -> if bird gets out from the screen, take it back to the start position
     if (this.bird.body.y >= this.config.height || this.bird.body.y < 0)
-      this.restartPlayerPosition();
+      this.gameOver();
     // bounce feature (move back and forth) -> bounce in the walls
     if (this.bird.body.x >= this.config.width - this.bird.width)
       this.bird.body.velocity.x = -VELOCITY;
@@ -125,7 +130,7 @@ class PlayScene extends Phaser.Scene {
     return rightMostX;
   }
 
-  restartPlayerPosition() {
+  gameOver() {
     this.bird.x = this.config.startPosition.x;
     this.bird.y = this.config.startPosition.y;
     this.bird.body.velocity.y = 0;
