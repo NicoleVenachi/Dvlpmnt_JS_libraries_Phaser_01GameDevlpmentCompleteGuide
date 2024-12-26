@@ -54,7 +54,7 @@ class PlayScene extends Phaser.Scene {
         "birdSquare"
       )
       .setOrigin(0.5, 0.5);
-    this.bird.body.velocity.x = 100;
+    this.bird.body.velocity.x = 50;
     this.bird.body.gravity.y = 400;
     this.bird.setCollideWorldBounds(true);
   }
@@ -75,11 +75,11 @@ class PlayScene extends Phaser.Scene {
       this.placePipe(upperPipe, lowerPipe);
     }
 
-    this.pipes.setVelocityX(-200);
+    this.pipes.setVelocityX(-100);
   }
 
   createColliders() {
-    // this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
+    this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
   }
 
   createScore() {
@@ -88,7 +88,14 @@ class PlayScene extends Phaser.Scene {
       fontSize: "32px",
       fill: "#000",
     });
+
+    const bestScore = localStorage.getItem("bestScore");
+    this.bestScore = this.add.text(16, 52, `Best Score: ${bestScore || 0}`, {
+      fontSize: "18px",
+      fill: "#000",
+    });
   }
+
   handleInputs() {
     this.input.on("pointerdown", this.flap, this);
     this.input.keyboard.on("keydown-SPACE", this.flap, this);
@@ -139,6 +146,7 @@ class PlayScene extends Phaser.Scene {
         if (tempPipes.length === 2) {
           this.placePipe(...tempPipes);
           this.increaseScore();
+          this.setBestScore();
         }
       }
     });
@@ -154,12 +162,21 @@ class PlayScene extends Phaser.Scene {
     return rightMostX;
   }
 
+  setBestScore() {
+    const bestScoreText = localStorage.getItem("bestScore"); //by deafult is a string
+    const bestScore = bestScoreText && parseInt(bestScoreText, 10); //ten based sx (decimal)
+
+    if (!bestScore || this.score > bestScore) {
+      localStorage.setItem("bestScore", this.score);
+      this.bestScore.setText(`Best Score: ${this.score}`);
+    }
+  }
+
   gameOver() {
-    // this.bird.x = this.config.startPosition.x;
-    // this.bird.y = this.config.startPosition.y;
-    // this.bird.body.velocity.y = 0;
     this.physics.pause();
     this.bird.setTint(0xfff0000);
+
+    this.setBestScore();
 
     this.time.addEvent({
       delay: 1000,
