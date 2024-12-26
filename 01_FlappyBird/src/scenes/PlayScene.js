@@ -146,6 +146,12 @@ class PlayScene extends Phaser.Scene {
     // this.bird.body.velocity.y = 0;
     this.physics.pause();
     this.bird.setTint(0xfff0000);
+
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => this.scene.restart(),
+      loop: false,
+    });
   }
 
   flap() {
