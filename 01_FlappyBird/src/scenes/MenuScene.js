@@ -3,6 +3,12 @@ import BaseScene from "./BaseScene";
 class MenuScene extends BaseScene {
   constructor(config) {
     super("MenuScene", config);
+
+    this.menu = [
+      { scene: "PlayScene", text: "Play" },
+      { scene: "ScoreScene", text: "Score" },
+      { scene: null, text: "Exit" },
+    ]; //menu navigation items
   }
 
   //  ----------------------- Phaser methods --------------------
@@ -10,7 +16,8 @@ class MenuScene extends BaseScene {
 
   create() {
     super.create();
-    this.scene.start("PlayScene");
+    this.createMenu(this.menu);
+    // this.scene.start("PlayScene");
   }
 
   update() {}
