@@ -17,7 +17,6 @@ class MenuScene extends BaseScene {
   create() {
     super.create();
     this.createMenu(this.menu, this.setupMenuEvents.bind(this));
-    // this.scene.start("PlayScene");
   }
 
   update() {}
@@ -33,9 +32,12 @@ class MenuScene extends BaseScene {
     textGO.on("pointerout", () => {
       textGO.setStyle({ fill: "#000" });
     });
-  }
 
-  // this.scene.start(menuItem.scene)
+    textGO.on("pointerup", () => {
+      menuItem.scene && this.scene.start(menuItem.scene);
+      menuItem.text === "Exit" && this.game.destroy(true);
+    });
+  }
 }
 
 export default MenuScene;
