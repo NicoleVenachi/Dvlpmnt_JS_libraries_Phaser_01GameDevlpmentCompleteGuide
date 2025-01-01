@@ -10,6 +10,11 @@ const SHARED_CONFIG = {
   height: HEIGHT,
   startPosition: BIRD_POSITION,
 };
+
+const Scenes = [PreloadScene, MenuScene, PlayScene];
+const createScene = (Scene) => new Scene(SHARED_CONFIG);
+const initScenesInstances = () => Scenes.map(createScene);
+
 const config = {
   type: Phaser.AUTO, //render tyoe (WebGL)
   ...SHARED_CONFIG,
@@ -19,11 +24,7 @@ const config = {
       debug: true,
     },
   },
-  scene: [
-    PreloadScene,
-    new MenuScene(SHARED_CONFIG),
-    new PlayScene(SHARED_CONFIG),
-  ],
+  scene: initScenesInstances(),
 };
 
 new Phaser.Game(config);
