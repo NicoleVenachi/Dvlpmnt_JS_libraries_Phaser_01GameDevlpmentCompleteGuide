@@ -52,7 +52,7 @@ class BaseScene extends Phaser.Scene {
 
     backButton.on("pointerover", () => backButton.setTint(0x76ca3c));
     backButton.on("pointerout", () => backButton.setTint());
-    backButton.on("pointerup", () => this.scene.start("MenuScene"));
+    backButton.on("pointerdown", () => this.scene.start("MenuScene"));
   }
 }
 
