@@ -26,7 +26,7 @@ class MenuScene extends BaseScene {
   setupMenuEvents(menuItem) {
     const textGO = menuItem.textGO;
     textGO.on("pointerover", () => {
-      textGO.setStyle({ fill: "#ff0" });
+      textGO.setStyle({ fill: "#fff" });
     });
 
     textGO.on("pointerout", () => {
