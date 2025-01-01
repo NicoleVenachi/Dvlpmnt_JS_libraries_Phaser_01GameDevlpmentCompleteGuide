@@ -1,13 +1,12 @@
-import Phaser from "phaser";
+import BaseScene from "./BaseScene";
 
 const PIPES_TO_RENDER = 4;
 const VELOCITY = 200;
 
-class PlayScene extends Phaser.Scene {
+class PlayScene extends BaseScene {
   constructor(config) {
-    super("PlayScene"); //ejecuto el custructor de Phaser Scene
+    super("PlayScene", config); //ejecuto el custructor de Base Scene
 
-    this.config = config;
     this.bird = null;
     this.pipes = null;
 
@@ -24,7 +23,7 @@ class PlayScene extends Phaser.Scene {
   preload() {}
 
   create() {
-    this.createBG();
+    super.create(); // ejecuto el create de Base Scene
     this.createBird();
     this.createPipes();
     this.createColliders();
@@ -39,9 +38,6 @@ class PlayScene extends Phaser.Scene {
   }
 
   // --------------- Class methods --------------------------------
-  createBG() {
-    this.add.image(0, 0, "sky").setOrigin(0, 0);
-  }
 
   createBird() {
     this.bird = this.physics.add
