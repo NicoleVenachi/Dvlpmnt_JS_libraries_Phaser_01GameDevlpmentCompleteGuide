@@ -15,6 +15,7 @@ class BaseScene extends Phaser.Scene {
 
   create() {
     this.createBG();
+    if (this.config.canGoBack) this.createBackButton();
   }
 
   // --------------- Class methods --------------------------------
@@ -39,6 +40,19 @@ class BaseScene extends Phaser.Scene {
 
       cb(menuItem); // callback to setup the event listener. setupMenuEvents = cb
     });
+  }
+
+  createBackButton() {
+    const backButton = this.add
+      .image(this.config.width - 10, this.config.height - 10, "back")
+      .setInteractive()
+      .setScale(2)
+      .setOrigin(1)
+      .setAlpha(0.7);
+
+    backButton.on("pointerover", () => backButton.setTint(0x76ca3c));
+    backButton.on("pointerout", () => backButton.setTint());
+    backButton.on("pointerup", () => this.scene.start("MenuScene"));
   }
 }
 
