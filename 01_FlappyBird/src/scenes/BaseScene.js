@@ -22,19 +22,22 @@ class BaseScene extends Phaser.Scene {
     this.add.image(0, 0, "sky").setOrigin(0, 0);
   }
 
-  createMenu(menu) {
+  createMenu(menu, cb) {
     let lastMenuPositionY = 0;
     menu.forEach((menuItem) => {
       const menuPostion = [
         this.screenCenter[0],
         this.screenCenter[1] + lastMenuPositionY,
       ];
-      this.add
+
+      menuItem.textGO = this.add
         .text(...menuPostion, menuItem.text, this.fontOptions)
-        .setOrigin(0.5, 1);
+        .setOrigin(0.5, 1)
+        .setInteractive(); // create/store the Phaser game object
+
       lastMenuPositionY += this.lineHeight;
 
-      // menuItem.
+      cb(menuItem); // callback to setup the event listener. setupMenuEvents = cb
     });
   }
 }
