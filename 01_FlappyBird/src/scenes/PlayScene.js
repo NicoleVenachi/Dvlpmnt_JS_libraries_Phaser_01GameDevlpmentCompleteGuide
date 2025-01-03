@@ -30,6 +30,7 @@ class PlayScene extends BaseScene {
     this.createScore();
     this.createPause();
     this.handleInputs();
+    this.listenToEvents();
   }
 
   update() {
@@ -106,6 +107,27 @@ class PlayScene extends BaseScene {
   handleInputs() {
     this.input.on("pointerdown", this.flap, this);
     this.input.keyboard.on("keydown-SPACE", this.flap, this);
+  }
+
+  listenToEvents() {
+    this.events.on("resume", () => {
+      this.initialTime = 3;
+      this.countDownText = this.add
+        .text(
+          ...this.screenCenter,
+          `Flying in: ${this.initialTime}`,
+          this.fontOptions
+        )
+        .setOrigin(0.5);
+
+      this.timedEvent = this.time.addEvent({
+        delay: 1000,
+        callback: () => (this.initialTime -= 1),
+        callbackScope: this,
+        loop: true,
+      });
+      this.physics.resume();
+    });
   }
 
   checkGameStatus() {
