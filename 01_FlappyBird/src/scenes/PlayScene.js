@@ -206,9 +206,15 @@ class PlayScene extends BaseScene {
           this.placePipe(...tempPipes);
           this.increaseScore();
           this.setBestScore();
+          this.increaseDifficulty();
         }
       }
     });
+  }
+
+  increaseDifficulty() {
+    if (this.score >= 3) this.currentDifficulty = "normal";
+    if (this.score >= 6) this.currentDifficulty = "hard";
   }
 
   getRightMostPipe() {

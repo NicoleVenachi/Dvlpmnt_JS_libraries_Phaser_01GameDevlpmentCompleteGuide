@@ -7,7 +7,7 @@ import {
   ScoreScene,
 } from "./scenes";
 
-const WIDTH = 800;
+const WIDTH = 400;
 const HEIGHT = 600;
 const BIRD_POSITION = { x: 15, y: HEIGHT / 2 };
 
