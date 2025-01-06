@@ -11,19 +11,34 @@ class PlayScene extends BaseScene {
     this.pipes = null;
     this.isPaused = false;
 
-    this.pipeVerticalgDistanceRange = [100, 250];
-    this.pipeHorizontalDistanceRange = [400, 500];
     this.pipeHorizontalDistance = 0;
     this.flapVelocity = 150;
 
     this.score = 0;
     this.scoreText = "";
+
+    this.currentDifficulty = "easy";
+    this.dificulties = {
+      easy: {
+        pipeHorizontalDistanceRange: [300, 350],
+        pipeVerticalDistanceRange: [150, 200],
+      },
+      normal: {
+        pipeHorizontalDistanceRange: [280, 330],
+        pipeVerticalDistanceRange: [140, 190],
+      },
+      hard: {
+        pipeHorizontalDistanceRange: [250, 310],
+        pipeVerticalDistanceRange: [100, 150],
+      },
+    };
   }
 
   //  ----------------------- Phaser methods --------------------
   preload() {}
 
   create() {
+    this.currentDifficulty = "easy";
     super.create(); // ejecuto el create de Base Scene
     this.createBird();
     this.createPipes();
@@ -44,13 +59,13 @@ class PlayScene extends BaseScene {
   createBird() {
     this.bird = this.physics.add
       .sprite(
-        this.config.startPosition.x,
+        this.config.startPosition.x + 80,
         this.config.startPosition.y,
         "birdSquare"
       )
       .setOrigin(0.5, 0.5);
-    this.bird.body.velocity.x = 50;
-    this.bird.body.gravity.y = 400;
+    // this.bird.body.velocity.x = 50;
+    this.bird.body.gravity.y = 200;
     this.bird.setCollideWorldBounds(true);
   }
 
@@ -156,14 +171,15 @@ class PlayScene extends BaseScene {
       this.bird.body.velocity.x = -VELOCITY;
     if (this.bird.body.x < 0) this.bird.body.velocity.x = VELOCITY;
     // // reduce aceleration
-    if (this.bird.body.velocity.y > 400) this.bird.body.velocity.y = 0;
+    // if (this.bird.body.velocity.y > 400) this.bird.body.velocity.y = 0;
   }
 
   placePipe(uPipe, lPipe) {
+    const diffyculty = this.dificulties[this.currentDifficulty];
     let rightMostX = this.getRightMostPipe();
 
     let pipeVerticalDistance = Phaser.Math.Between(
-      ...this.pipeVerticalgDistanceRange
+      ...diffyculty.pipeVerticalDistanceRange
     );
     let pipeVerticalPosition = Phaser.Math.Between(
       0 + 30,
@@ -171,7 +187,7 @@ class PlayScene extends BaseScene {
     );
 
     let pipeHorizontalDistance = Phaser.Math.Between(
-      ...this.pipeHorizontalDistanceRange
+      ...diffyculty.pipeHorizontalDistanceRange
     );
 
     uPipe.x = rightMostX + pipeHorizontalDistance;
