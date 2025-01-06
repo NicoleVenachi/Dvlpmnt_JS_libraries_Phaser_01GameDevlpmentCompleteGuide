@@ -61,8 +61,10 @@ class PlayScene extends BaseScene {
       .sprite(
         this.config.startPosition.x + 80,
         this.config.startPosition.y,
-        "birdSquare"
+        "bird"
       )
+      .setScale(3)
+      .setFlipX(true)
       .setOrigin(0.5, 0.5);
     // this.bird.body.velocity.x = 50;
     this.bird.body.gravity.y = 200;
