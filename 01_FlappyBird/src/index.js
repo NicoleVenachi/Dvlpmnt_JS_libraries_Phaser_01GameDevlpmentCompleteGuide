@@ -24,10 +24,11 @@ const initScenesInstances = () => Scenes.map(createScene);
 const config = {
   type: Phaser.AUTO, //render tyoe (WebGL)
   ...SHARED_CONFIG,
+  pixelArt: true,
   physics: {
     default: "arcade",
     arcade: {
-      debug: true,
+      debug: false,
     },
   },
   scene: initScenesInstances(),

@@ -47,6 +47,18 @@ class PlayScene extends BaseScene {
     this.createPause();
     this.handleInputs();
     this.listenToEvents();
+
+    this.anims.create({
+      key: "fly",
+      frames: this.anims.generateFrameNumbers("bird", {
+        start: 8,
+        end: 15,
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.bird.play("fly");
   }
 
   update() {
@@ -215,8 +227,8 @@ class PlayScene extends BaseScene {
   }
 
   increaseDifficulty() {
-    if (this.score >= 3) this.currentDifficulty = "normal";
-    if (this.score >= 6) this.currentDifficulty = "hard";
+    if (this.score >= 10) this.currentDifficulty = "normal";
+    if (this.score >= 20) this.currentDifficulty = "hard";
   }
 
   getRightMostPipe() {
