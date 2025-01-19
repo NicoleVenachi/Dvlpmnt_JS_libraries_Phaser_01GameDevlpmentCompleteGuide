@@ -17,8 +17,6 @@ class PlayScene extends Phaser.Scene {
    this.createEnvironment();
    this.createPlayer();
    this.registerPlayerControl();
-
-  
   }
 
   // ************** Custom methods **************
@@ -28,13 +26,18 @@ class PlayScene extends Phaser.Scene {
 
   createPlayer() {
     this.player = this.physics.add.sprite(0, this.gameHeight, 'dino-idle').setOrigin(0, 1);
+    
+    this.player
+      .setGravityY(5000)
+      .setCollideWorldBounds(true)
+      .setBodySize(44, 92);
   }
 
   registerPlayerControl() {
     const spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     spaceBar.on('down', () => {
-      this.player.setVelocityY(-600);
+      this.player.setVelocityY(-1600);
     })
   }
 }
