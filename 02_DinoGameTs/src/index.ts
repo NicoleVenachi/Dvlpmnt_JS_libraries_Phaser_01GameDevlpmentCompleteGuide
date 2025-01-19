@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import PreloadScene from "./scenes/PreloadScene";
 import PlayScene from "./scenes/PlayScene";
 
-const config = {
+const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 1000,
   height: 340,
