@@ -1,7 +1,7 @@
-import Phaser from "phaser";
-
 export class Player extends Phaser.Physics.Arcade.Sprite {
 
+  cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
 
@@ -15,24 +15,24 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   init () {
+    this.cursors = this.scene.input.keyboard.createCursorKeys();
+
     this
       .setOrigin(0, 1)
       .setGravityY(5000)
       .setCollideWorldBounds(true)
       .setBodySize(44, 92);
-
-    // this.registerPlayerControl()
   }
 
-  update(...args: any[]): void {
-    console.log('Player update');
-    
-  }
-  // registerPlayerControl() {
-  //   const spaceBar = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  update(): void {
+    const {space} = this.cursors;
+    const isSpaceJustDown = Phaser.Input.Keyboard.JustDown(space);
 
-  //   spaceBar.on('down', () => {
-  //     this.setVelocityY(-1600);
-  //   })
-  // }
+    const onFloor = (this.body as Phaser.Physics.Arcade.Body).onFloor();
+
+    if (isSpaceJustDown && onFloor) {
+      this.setVelocityY(-1600);
+    }  
+  }
 }
+
