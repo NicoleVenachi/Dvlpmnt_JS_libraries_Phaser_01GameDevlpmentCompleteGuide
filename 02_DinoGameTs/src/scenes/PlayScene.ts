@@ -23,7 +23,13 @@ class PlayScene extends Phaser.Scene {
     .setAlpha(0)
     .setOrigin(0, 1);
    this.physics.add.overlap(this.player, this.startTrigger, () => {
-     console.log('Collided'); 
+     if (this.startTrigger.y === 10) { //first time it triggers, position is 10
+        this.startTrigger.body.reset(0, this.gameHeight);
+        return
+     }
+
+      this.startTrigger.body.reset(1000, 1000); //second time goes off screen
+      console.log('roll out the scenary');
    });
   }
 
