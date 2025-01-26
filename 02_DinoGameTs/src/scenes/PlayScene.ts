@@ -5,10 +5,15 @@ import { Player } from "../entities/Player";
 class PlayScene extends Phaser.Scene {
   
   player: Player;
+  ground:  Phaser.GameObjects.TileSprite;
   startTrigger: SpriteWithDynamicBody;
 
   get gameHeight() {
     return this.game.config.height as number;
+  }
+
+  get gameWidth() {
+    return this.game.config.width as number;
   }
 
   constructor() {
@@ -29,17 +34,23 @@ class PlayScene extends Phaser.Scene {
      }
 
       this.startTrigger.body.reset(1000, 1000); //second time goes off screen
-      console.log('roll out the scenary');
+      this.time.addEvent({
+        delay: 1000 / 60, // 60 times per second
+        loop: true,
+        callback: () => {
+          if (this.ground.width <= this.gameWidth) this.ground.width += 17;  
+        },
+        callbackScope: this
+      })
    });
   }
 
-  // update(time: number, delta: number): void {
-    
-  // }
+  update(time: number, delta: number): void {
+  }
 
   // ************** Custom methods **************
   createEnvironment() {
-    this.add.tileSprite(0, this.gameHeight, 88, 26, 'ground').setOrigin(0, 1);
+    this.ground = this.add.tileSprite(0, this.gameHeight, 88, 26, 'ground').setOrigin(0, 1);
   }
 
   createPlayer() {
